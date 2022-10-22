@@ -32,12 +32,12 @@ namespace Playground.Infra
                         //sbt-example-sample-SampleUpdatedEvent
                         cfg.ConfigureTopologyEntityName<SampleUpdatedEvent>("example", "sample");
                         //sbt-example-sample-SampleDeletedEvent
-                        cfg.ConfigureTopologyEntityName<SampleUpdatedEvent>("example", "sample");
+                        cfg.ConfigureTopologyEntityName<SampleDeletedEvent>("example", "sample");
                         
                         // configuring subscriptions
                         cfg.ConfigureSubscription<SampleCreatedEvent>(context);
                         cfg.ConfigureSubscription<SampleUpdatedEvent>(context);
-                        cfg.ConfigureSubscription<SampleUpdatedEvent>(context);
+                        cfg.ConfigureSubscription<SampleDeletedEvent>(context);
                     });
                 });
 
