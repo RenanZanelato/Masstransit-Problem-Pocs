@@ -10,16 +10,15 @@ namespace Playground.Infra
     {
         public static IServiceCollection AddMassTransitServiceBus(this IServiceCollection serviceCollection)
         {
-            serviceCollection
-                .AddScoped<IConsumer<SampleCreatedEvent>, SampleCreatedConsumer>()
+            serviceCollection.AddScoped<IConsumer<SampleCreatedEvent>, SampleCreatedConsumer>()
                 .AddScoped<IConsumer<SampleUpdatedEvent>, SampleUpdatedConsumer>()
-                .AddScoped<IConsumer<SampleDeletedEvent>, SampleDeletedConsumer>();
-
-
-            serviceCollection
+                .AddScoped<IConsumer<SampleDeletedEvent>, SampleDeletedConsumer>()
                 .AddMassTransit(busConfigure =>
                 {
                     busConfigure.AddConsumer<IConsumer<SampleCreatedEvent>>();
+                    busConfigure.AddConsumer<IConsumer<SampleUpdatedConsumer>>();
+                    busConfigure.AddConsumer<IConsumer<SampleDeletedConsumer>>();
+
                     busConfigure.UsingAzureServiceBus((context, cfg) =>
                     {
                         //get connection on the file appsettings.json
