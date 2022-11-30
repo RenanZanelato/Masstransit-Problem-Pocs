@@ -17,7 +17,7 @@ namespace Playground.Infra
         {
             serviceCollection.AddSingleton<IMessageDataRepository>(container =>
             {
-                //return new InMemoryMessageDataRepository();
+                return new InMemoryMessageDataRepository();
                 var configuration = container.GetRequiredService<IConfiguration>();
                 var client = new BlobServiceClient(configuration.GetConnectionString("Storage"));
                 return client.CreateMessageDataRepository(containerName: "servicebus-heavy-messages");

@@ -31,7 +31,6 @@ namespace Playground
             }
 
             app.UseRouting();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGet("/", async context =>
@@ -42,7 +41,8 @@ namespace Playground
                     foreach (var qtde in qtdeItensLista)
                     {
                         var sampleItens = CreateSampleItensMock(qtde).ToArray();
-                        var contract = new SampleItensCreatedContract(sampleItens);
+                        
+                        var contract = new SampleItensCreatedContract(Guid.NewGuid(), sampleItens, true);
                         
                         var @event = new
                         {
@@ -54,7 +54,7 @@ namespace Playground
                         await publisher.Publish<SampleItensMessageDataEvent>(@event);
                         st.Stop();
 
-                        Console.WriteLine($"Event #{@event.Id} published, with items length {contract.Items.Length} - {st.ElapsedMilliseconds}ms");
+                        Console.WriteLine($"Event #{@event.Id} published, with items {contract.Messages.Count()} - {st.ElapsedMilliseconds}ms");
                     }
 
                     await context.Response.WriteAsync("Hello World!");
@@ -62,14 +62,11 @@ namespace Playground
             });
         }
 
-        private static IEnumerable<SampleItem> CreateSampleItensMock(int quantidade)
+        private static IEnumerable<SampleItem> CreateSampleItensMock(int quantity)
         {
-            for (var i = 0; i < quantidade; i++)
+            for (var i = 0; i < quantity; i++)
             {
-                yield return new SampleItem
-                {
-                    Id = Guid.NewGuid()
-                };
+                yield return new SampleItem(Guid.NewGuid());
             }
         }
     }

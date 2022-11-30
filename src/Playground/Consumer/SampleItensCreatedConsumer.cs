@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using MassTransit;
 using Playground.Messages;
@@ -14,7 +15,7 @@ namespace Playground.Consumer
             var message = await context.Message.Body.Value;
             st.Stop();
 
-            Console.WriteLine($"Message #{context.MessageId}={context.Message.Id} consumed, with items length {message.Items.Length} - {st.ElapsedMilliseconds}ms");
+            Console.WriteLine($"Message #{context.MessageId}={context.Message.Id} consumed, with items totalMessages {message.Messages.Count()} - {st.ElapsedMilliseconds}ms");
         }
     }
 }
